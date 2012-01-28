@@ -1,0 +1,72 @@
+doctype html
+html
+    head
+        title Patexia hours calculator
+        link href='/stylesheets/fullcalendar.css' media='screen' rel='stylesheet' type='text/css'
+        link href='/stylesheets/application.css' media='screen' rel='stylesheet' type='text/css'
+        script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
+        script type='text/javascript' src='/javascripts/fullcalendar.min.js'
+        javascript:
+            function formatRow(title, hours, className) {
+                return '<tr class="' + className + '">'
+                    + '<td class="key">' + title + '</td>'
+                    + '<td class="value">' + hours + '</td>'
+                    + '</tr>';
+            }
+        
+            $(document).ready(function() {
+                $('#calendar').fullCalendar({
+                    events: '/feed',
+                    buttonText: {
+                        prev: 'Prev',
+                        next: 'Next',
+                        today: 'Current month'
+                    },
+                    viewDisplay: function(cal) {
+                        $('#fullPageLoader').show();
+                        $('#summary div.list').html('Loading...');
+                        $.get(
+                            '/total', 
+                            {
+                                year: cal.start.getFullYear(),
+                                month: cal.start.getMonth() + 1
+                            },
+                            function(response) {
+                                var html;
+
+                                if ($.isEmptyObject(response)) {
+                                    html = 'No time entries';
+                                } else {
+                                    html = '<table>';
+                                    
+                                    var total = 0;
+                                    $.each(response, function(key, value) {
+                                        total += value.hours;
+                                        html += formatRow(
+                                            value.name,
+                                            value.hours,
+                                            value.className
+                                        );
+                                    });
+                                    html += formatRow(
+                                        'Total',
+                                        total,
+                                        'total'
+                                    );
+                                    
+                                    html += '</table>';
+                                } 
+                                
+                                $('#fullPageLoader').hide();
+                                $('#summary div.list').html(html);
+                            }
+                        );
+                    }
+                })
+            });
+    body
+        #summary
+            h1 Summary
+            div.list Loading...
+        #calendar
+        #fullPageLoader

@@ -1,0 +1,8 @@
+# ignore config file
+config.yaml
+
+# tmp folder
+tmp
+
+# mac temp files
+.DS_Store
