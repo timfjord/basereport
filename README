@@ -3,7 +3,7 @@ Basecamp report generator
 Make sure you create config.yaml file in project root folder
 
     domain: <domain>
-    username: <username or tokn api>
+    username: <username or token api>
     password: <password or some bugus text if you are using api key>
     project: <project id>
     use_ssl: true|false
