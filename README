@@ -7,3 +7,5 @@ Make sure you create config.yaml file in project root folder
     password: <password or some bugus text if you are using api key>
     project: <project id>
     use_ssl: true|false
+    
+Calendar generated with FullCalendar script (http://arshaw.com/fullcalendar/)
