@@ -5,14 +5,16 @@ class Report
   def initialize
     file = "config.yaml"
     @config = Psych.load_file(file)
+    
+    abort('Wrong params') if !@config.is_a?(Hash) || @config['domain'].nil? || @config['username'].nil? 
   end
   
   def connect!
     Basecamp.establish_connection!(
       @config['domain'], 
       @config['username'], 
-      @config['password'], 
-      @config['use_ssl'], 
+      @config['password'] || 'X', 
+      @config['use_ssl'] || true, 
     )
   end
   
@@ -30,20 +32,26 @@ class Report
     from = Time.at(params['start'].to_i).strftime('%Y%m%d')
     to = Time.at(params['end'].to_i).strftime('%Y%m%d')
 
-    res = []
+    res = {}
     report(from, to).each do |time_entry|
-      item = {
-        :title => "%s (%s hours)" % [time_entry.person_name, time_entry.hours.to_i],
-        :allDay => true,
-        :start => time_entry.date.to_time.to_i,
-        :end => time_entry.date.to_time.to_i,
-        :className => 'timeEntryFor' + time_entry.person_name.gsub(/\s+/, '')
-      }
-
-      res << item 
+      key = time_entry.date.to_time.to_i.to_s + time_entry.person_id.to_s
+      
+      if res.has_key? key
+        res[key][:hours] += time_entry.hours.to_i 
+        res[key][:title] = "%s (%s hours)" % [time_entry.person_name, res[key][:hours]] 
+      else
+        res[key] = {
+          :title => "%s (%s hours)" % [time_entry.person_name, time_entry.hours.to_i],
+          :hours => time_entry.hours.to_i,
+          :allDay => true,
+          :start => time_entry.date.to_time.to_i,
+          :end => time_entry.date.to_time.to_i,
+          :className => 'timeEntryFor' + time_entry.person_name.gsub(/\s+/, '')
+        }
+      end
     end
     
-    res
+    res.values
   end
   
   def total(params)
