@@ -11,7 +11,7 @@ get "/" do
 end
 
 get "/feed" do
-  abort("Wrong params") if params["start"].empty? || params["end"].empty?
+  return "Wrong params" if params["start"].nil? || params["end"].nil?
   
   content_type :json
   
@@ -21,7 +21,7 @@ get "/feed" do
 end
 
 get "/total" do
-  abort("Wrong params") if params["month"].empty? || params["year"].empty?
+  return "Wrong params" if params["month"].nil? || params["year"].nil?
   
   content_type :json
   
