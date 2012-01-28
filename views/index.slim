@@ -34,25 +34,25 @@ html
                             function(response) {
                                 var html;
 
-                                if ($.isEmptyObject(response)) {
+                                if ($.isEmptyObject(response.summary)) {
                                     html = 'No time entries';
                                 } else {
                                     html = '<table>';
                                     
-                                    var total = 0;
-                                    $.each(response, function(key, value) {
-                                        total += value.hours;
+                                    $.each(response.summary, function(key, value) {
                                         html += formatRow(
                                             value.name,
                                             value.hours,
                                             value.className
                                         );
                                     });
-                                    html += formatRow(
-                                        'Total',
-                                        total,
-                                        'total'
-                                    );
+                                    if (response.total) {
+                                        html += formatRow(
+                                            'Total',
+                                            response.total,
+                                            'total'
+                                        );
+                                    }
                                     
                                     html += '</table>';
                                 } 
