@@ -46,8 +46,8 @@ class Report
             self.class.format_hours(time_entry.hours)],
           "hours" => time_entry.hours,
           "allDay" => true,
-          "start" => time_entry.date.to_time.to_i,
-          "end" => time_entry.date.to_time.to_i,
+          "start" => time_entry.date,
+          "end" => time_entry.date,
           "className" => 'timeEntryFor' + time_entry.person_name.gsub(/\s+/, '')
         }
       end
