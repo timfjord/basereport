@@ -5,7 +5,8 @@ html
         link href='/stylesheets/fullcalendar.css' media='screen' rel='stylesheet' type='text/css'
         link href='/stylesheets/application.css' media='screen' rel='stylesheet' type='text/css'
         script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
-        script type='text/javascript' src='/javascripts/fullcalendar.min.js'
+        script type='text/javascript' src='/javascripts/fullcalendar.js'
+        
         javascript:
             function formatRow(title, hours, className) {
                 return '<tr class="' + className + '">'
@@ -16,6 +17,8 @@ html
         
             $(document).ready(function() {
                 $('#calendar').fullCalendar({
+                    month: #{{@m}},
+                    year: #{{@y}},
                     events: '/feed',
                     buttonText: {
                         prev: 'Prev',

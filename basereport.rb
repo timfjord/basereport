@@ -7,6 +7,11 @@ require "./report"
 set :public_folder, File.dirname(__FILE__) + "/public"
 
 get "/" do
+  current_date = Time.new
+  
+  @m = (params["m"] || current_date.month).to_i - 1
+  @y = (params["y"] || current_date.year).to_i
+  
   slim :index
 end
 
