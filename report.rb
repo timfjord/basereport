@@ -4,7 +4,7 @@ require "psych"
 class Report
   def initialize
     file = "config.yaml"
-    @config = Psych.load_file(file)
+    @config = YAML::load(File.open(file))
     
     abort('Wrong params') if !@config.is_a?(Hash) || @config["domain"].nil? || @config["username"].nil? 
   end
