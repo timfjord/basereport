@@ -14,7 +14,7 @@ class Report
       @config["domain"], 
       @config["username"], 
       @config["password"] || 'X', 
-      @config["use_ssl"] || true, 
+      @config["use_ssl"] || true
     )
   end
   
