@@ -1,5 +1,4 @@
 require "basecamp"
-require "psych"
 
 class Report
   def initialize
