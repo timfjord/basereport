@@ -33,12 +33,14 @@ class Report
 
     res = {}
     report(from, to).each do |time_entry|
-      key = time_entry.date.to_time.to_i.to_s + time_entry.person_id.to_s
+      key = "%s-%s" % [time_entry.person_id.to_s, time_entry.date.to_time.to_i.to_s]
       
       if res.has_key? key
-        res[key]["hours"] += time_entry.hours 
-        res[key]["title"] = "%s (%s hours)" % [time_entry.person_name, 
-          self.class.format_hours(res[key][:hours])] 
+        res[key]["hours"] += time_entry.hours
+        res[key]["title"] = "%s - %s" % [
+          time_entry.person_name, 
+          self.class.format_hours(res[key]["hours"])
+        ]
       else
         res[key] = {
           "title" => "%s - %s" % [time_entry.person_name, 

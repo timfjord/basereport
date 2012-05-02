@@ -27,7 +27,6 @@ GEM
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
-    psych (1.2.2)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -48,6 +47,5 @@ PLATFORMS
 DEPENDENCIES
   basecamp
   json
-  psych
   sinatra
   slim
